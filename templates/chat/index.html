@@ -1,0 +1,20 @@
+{% extends 'chat-base.html' %}
+{% block body %}
+
+{% load static %}
+
+{{ block.super }}
+
+            <div class="user-chat w-100 overflow-hidden">
+
+                <div class="mt-5 text-center">
+                    <h4 class="text-center">It's messaging time!</h4> <br>
+                    <img width="400" src="{% static 'assets/images/undraw_messages_2.svg' %}" alt="">
+                </div>
+
+            </div>
+
+
+        {% csrf_token %}
+
+{% endblock %}
