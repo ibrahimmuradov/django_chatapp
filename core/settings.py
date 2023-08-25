@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'channels',
+    'django_cleanup.apps.CleanupConfig',
 
     'chat',
     'account',
