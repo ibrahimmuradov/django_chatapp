@@ -55,6 +55,7 @@ def room(request, room_code):
 
     return render(request, 'chat/room.html', context)
 
+
 @login_required(login_url='/account/login/')
 def delete_message(request):
     data = {}
