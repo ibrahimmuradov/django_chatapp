@@ -66,7 +66,7 @@ def delete_message(request):
     if user == message.user:
         message.visibility = 'invisible'
         message.save()
-        data['success'] = 'Message deleted succesffully'
+        data['success'] = 'Message deleted successfully'
     else:
         data['error'] = 'Message could not be deleted.'
 
