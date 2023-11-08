@@ -63,16 +63,3 @@ class UserBase(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
-
-
-# class Friends(Date):
-#     friend_user = models.ForeignKey('account.UserBase', on_delete=models.CASCADE, null=True, blank=True)
-#     # test = models.CharField(max)
-#
-#     def __str__(self):
-#         return self.friend_user.username
-#
-#     class Meta:
-#         ordering = ('-created_date', )
-#         verbose_name = 'Friend'
-#         verbose_name_plural = 'Friends'
