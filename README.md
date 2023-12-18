@@ -10,7 +10,6 @@ I used the Django framework of the python programming language in the backend of
 <br>
 I used javascript on frontend and jquery for connection with backend.
 <br>
-I did not write html css and javascript codes because I used ready-made template in the project. I just made some changes.
 
 ## Installation
 
