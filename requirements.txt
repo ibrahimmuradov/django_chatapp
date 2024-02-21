@@ -1,0 +1,9 @@
+asgiref==3.7.2
+channels==4.0.0
+channels-redis==4.1.0
+Django==4.0
+msgpack==1.0.5
+Pillow==10.0.0
+redis==4.6.0
+sqlparse==0.4.4
+django-cleanup==7.0.0

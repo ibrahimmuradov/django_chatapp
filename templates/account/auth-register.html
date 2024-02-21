@@ -1,0 +1,159 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+        
+        <meta charset="utf-8" />
+        <title>Register | Chat App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Responsive Bootstrap 4 Chat App" name="description" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{% static static 'assets/images/favicon.ico' %}">
+
+        <!-- Bootstrap Css -->
+        <link href="{% static 'assets/css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{% static 'assets/css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+
+
+    </head>
+
+    <body data-bs-theme="dark">
+        <div class="account-pages my-5 pt-sm-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6 col-xl-5">
+                        <div class="text-center mb-4">
+                            <a href="/" class="auth-logo d-block">
+                                <img src="{% static 'assets/images/logo-dark.png' %}" alt="" width="120" class="logo logo-dark">
+                                <img src="{% static 'assets/images/logo-light.png' %}" alt="" width="120" class="logo logo-light">
+                            </a>
+
+                            <h4>Sign up</h4>
+                            <p class="text-muted mb-4">Get your Chatvia account now.</p>
+                            
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body p-4">
+                                <div class="p-3" id="form-container">
+                                    {% if data %}
+                                        {{data}}
+                                    {% else %}
+                                    <form method="POST" id="registration-form">
+                                        {% csrf_token%}
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <div class="input-group bg-light-subtle rounded-3  mb-3">
+                                                <span class="input-group-text text-muted">
+                                                    <i class="ri-mail-line"></i>
+                                                </span>
+                                                {{form.email}}
+                                            </div>
+                                            {% if form.email.errors %}
+                                                {% for error in form.email.errors %}
+                                                    <li style="color: red"> {{ error|escape }} </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+    
+                                        <div class="mb-3">
+                                            <label class="form-label">Username</label>
+                                            <div class="input-group bg-light-subtle mb-3 rounded-3">
+                                                <span class="input-group-text border-light text-muted">
+                                                    <i class="ri-user-2-line"></i>
+                                                </span>
+                                                    {{ form.username }}
+                                            </div>
+                                            {% if form.username.errors %}
+                                                {% for error in form.username.errors %}
+                                                    <li style="color: red"> {{ error|escape }} </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">First Name</label>
+                                            <div class="input-group bg-light-subtle mb-3 rounded-3">
+                                                <span class="input-group-text border-light text-muted">
+                                                    <i class="ri-user-2-line"></i>
+                                                </span>
+                                                    {{ form.first_name }}
+                                            </div>
+                                            {% if form.first_name.errors %}
+                                                {% for error in form.first_name.errors %}
+                                                    <li style="color: red"> {{ error|escape }} </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="form-label">Password</label>
+                                            <div class="input-group bg-light-subtle mb-3 rounded-3">
+                                                <span class="input-group-text border-light text-muted">
+                                                    <i class="ri-lock-2-line"></i>
+                                                </span>
+                                                {{ form.password }}
+                                            </div>
+                                            <span style="font-size: 0.8rem" class="text-muted">Your password must be
+                                                longer than 4 characters <br> and contain at least 1 letter</span>
+                                            {% if form.password.errors %}
+                                                {% for error in form.password.errors %}
+                                                    <li style="color: red"> {{ error|escape }} </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Password Repeat</label>
+                                            <div class="input-group bg-light-subtle mb-3 rounded-3">
+                                                <span class="input-group-text border-light text-muted">
+                                                    <i class="ri-user-2-line"></i>
+                                                </span>
+                                                    {{ form.password2 }}
+                                            </div>
+                                            {% if form.password2.errors %}
+                                                {% for error in form.password2.errors %}
+                                                    <li style="color: red"> {{ error|escape }} </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button id="form-button" class="btn btn-primary waves-effect waves-light" type="submit">Sign up</button>
+                                        </div>
+
+                                        <div class="mt-4 text-center">
+                                            <p class="text-muted mb-0">By registering you agree to the Chatvia <a href="#" class="text-primary">Terms of Use</a></p>
+                                        </div>
+                                        
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <p>Already have an account ? <a href="{% url 'account:login' %}" class="fw-medium text-primary"> Signin </a> </p>
+                            <p>© Copyright 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end account-pages -->
+
+        <!-- JAVASCRIPT -->
+        <script src="{% static 'assets/libs/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+        <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+
+        <script src="{% static 'assets/js/app.js' %}"></script>
+        <script src="{% static 'assets/js/register.js' %}"></script>
+
+    </body>
+</html>

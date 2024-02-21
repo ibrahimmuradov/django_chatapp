@@ -1,0 +1,610 @@
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+
+        <meta charset="utf-8" />
+        <title>Chat App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Chat App" name="description" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+
+        <!-- magnific-popup css -->
+        <link href="{% static 'assets/libs/magnific-popup/magnific-popup.css' %}" rel="stylesheet" type="text/css" />
+
+        <!-- owl.carousel css -->
+        <link rel="stylesheet" href="{% static 'assets/libs/owl.carousel/assets/owl.carousel.min.css' %}">
+
+        <link rel="stylesheet" href="{% static 'assets/libs/owl.carousel/assets/owl.theme.default.min.css' %}">
+
+        <!-- Bootstrap Css -->
+        <link href="{% static 'assets/css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{% static 'assets/css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+
+    </head>
+
+    <body data-bs-theme="dark">
+
+        <div class="layout-wrapper d-lg-flex">
+
+            <!-- Start left sidebar-menu -->
+            <div class="side-menu flex-lg-column me-lg-1 ms-lg-0">
+                <!-- LOGO -->
+                <div class="navbar-brand-box">
+                    <a href="/" class="logo logo-dark">
+                        <span class="logo-sm">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="" width="40">
+                        </span>
+                    </a>
+
+                    <a href="/" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="" width="40">
+                        </span>
+                    </a>
+                </div>
+                <!-- end navbar-brand-box -->
+
+                <!-- Start side-menu nav -->
+                <div class="flex-lg-column my-auto">
+                    <ul class="nav nav-pills side-menu-nav justify-content-center" role="tablist">
+                        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Chats">
+                            <a class="nav-link active" id="pills-chat-tab" data-bs-toggle="pill" href="#pills-chat" role="tab">
+                                <i class="ri-message-3-line"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Contacts">
+                            <a class="nav-link" id="pills-contacts-tab" data-bs-toggle="pill" href="#pills-contacts" role="tab">
+                                <i class="ri-contacts-line"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Incoming Invitations">
+                            <a class="nav-link" id="incoming-invitation-tab" data-bs-toggle="pill" href="#incoming-invitation" role="tab">
+                                <i class="ri-reply-line"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Outgoing Invitations">
+                            <a class="nav-link" id="outgoing-invitation-tab" data-bs-toggle="pill" href="#outgoing-invitation" role="tab">
+                                <i class="ri-send-plane-line"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Profile Settings">
+                            <a class="nav-link" id="pills-setting-tab" data-bs-toggle="pill" href="#pills-setting" role="tab">
+                                <i class="ri-settings-2-line"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown profile-user-dropdown d-inline-block d-lg-none">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'assets/images/users/avatar-1.jpg' %}" alt="" class="profile-user rounded-circle">
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Profile <i class="ri-profile-line float-end text-muted"></i></a>
+                                <a class="dropdown-item" href="#">Setting <i class="ri-settings-3-line float-end text-muted"></i></a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Log out <i class="ri-logout-circle-r-line float-end text-muted"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- end side-menu nav -->
+
+                <div class="flex-lg-column d-none d-lg-block">
+                    <ul class="nav side-menu-nav justify-content-center">
+                        <li class="nav-item btn-group dropup profile-user-dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{request.user.profile_photo.url}}" alt="" class="profile-user rounded-circle">
+                            </a>
+                            <div class="dropdown-menu">
+                                <span class="dropdown-item" style="pointer-events: none"> {{request.user.username}}</span>
+                                <a class="dropdown-item" href="{% url 'account:logout' %}">Log out <i class="ri-logout-circle-r-line float-end text-muted"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Side menu user -->
+            </div>
+            <!-- end left sidebar-menu -->
+
+            <!-- start chat-leftsidebar -->
+            <div class="chat-leftsidebar me-lg-1 ms-lg-0">
+
+                <div class="tab-content">
+                    <!-- Start chats tab-pane -->
+                    <div class="tab-pane fade show active" id="pills-chat" role="tabpanel" aria-labelledby="pills-chat-tab">
+                        <!-- Start chats content -->
+                        <div>
+                            <div class="px-4 pt-4">
+                                <h4 class="mb-4">Chats</h4>
+                                <div class="search-box chat-search-box">
+                                    <div class="input-group mb-3 rounded-3">
+                                        <span class="input-group-text text-muted bg-light pe-1 ps-3" id="basic-addon1">
+                                            <i class="ri-search-line search-icon font-size-18"></i>
+                                        </span>
+                                        <input type="text" class="form-control bg-light" placeholder="Search messages or users" aria-label="Search messages or users" aria-describedby="basic-addon1">
+                                    </div>
+                                </div> <!-- Search Box-->
+                            </div> <!-- .p-4 -->
+
+                            <!-- Start chat-message-list -->
+                            <div class="">
+                                <h5 class="mb-3 px-3 font-size-16">Recent</h5>
+
+                                <div class="chat-message-list px-2" data-simplebar>
+
+                                    <ul class="list-unstyled chat-list chat-user-list">
+
+                                        {% for friend, message in friends_and_rooms_message.items %}
+
+                                            <li>
+                                                <a href="{% url 'chat:start_chat' friend %}">
+                                                    <div class="d-flex">
+                                                        <div class="chat-user-img online align-self-center me-3 ms-0">
+                                                            <img src="{{friend.profile_photo.url}}" class="rounded-circle avatar-xs" alt="">
+                                                        </div>
+
+                                                        {% if message %}
+                                                            {% for message, date in message.items %}
+                                                                <div class="flex-grow-1 overflow-hidden">
+                                                                    <h5 class="text-truncate font-size-15 mb-1">{{friend.username}} </h5>
+                                                                    <p class="chat-user-message text-truncate mb-0">
+                                                                        {{message}}
+                                                                    </p>
+                                                                </div>
+                                                                <div class="font-size-11">{{date.hour}}:{{date.minute}}</div>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <div class="flex-grow-1 overflow-hidden">
+                                                                <h5 class="text-truncate font-size-15 mb-1">{{friend.username}} </h5>
+                                                            </div>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </a>
+                                            </li>
+
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- End chat-message-list -->
+                        </div>
+                        <!-- Start chats content -->
+                    </div>
+                    <!-- End chats tab-pane -->
+
+                    <!-- Start incoming invitation tab-pane -->
+                    <div class="tab-pane" id="incoming-invitation" role="tabpanel" aria-labelledby="incoming-invitation-tab">
+                        <!-- Start Groups content -->
+                        <div>
+                            <div class="p-4">
+                                <h4>Incoming Invitations</h4>
+                            </div>
+
+                            <!-- Start chat-group-list -->
+                            <div class="p-4 chat-message-list chat-group-list" data-simplebar>
+
+                                <ul class="list-unstyled chat-list">
+
+                                    {% for invitation in incoming_invitations %}
+
+                                    <li id="incoming-invitation-{{invitation.id}}">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="text-truncate font-size-14 mb-0">{{invitation.from_user}}
+                                                    <div class="float-end">
+                                                        <i style="cursor: pointer; font-size: 1.1rem;" onclick="acceptInvite('{{invitation.id}}')" title="Accept" class="ri-check-line mx-3 text-success"></i>
+                                                        <i style="cursor: pointer; font-size: 1.1rem;" onclick="denyInvite('{{invitation.id}}')" title="Deny" class="ri-close-line mx-3 text-danger"></i>
+                                                    </div>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+                            <!-- End chat-group-list -->
+                        </div>
+                        <!-- End Groups content -->
+                    </div>
+                    <!-- End invitation tab-pane -->
+
+                     <!-- Start outgoing invitation tab-pane -->
+                    <div class="tab-pane" id="outgoing-invitation" role="tabpanel" aria-labelledby="outgoin-invitation-tab">
+                        <!-- Start Groups content -->
+                        <div>
+                            <div class="p-4">
+                                <h4>Outgoing Invitations</h4>
+                            </div>
+
+                            <!-- Start chat-group-list -->
+                            <div class="p-4 chat-message-list chat-group-list" data-simplebar>
+
+
+                                <ul class="list-unstyled chat-list">
+
+                                    {% for invitation in outgoing_invitations %}
+
+                                    <li id="outgoing-invitation-{{invitation.id}}">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <h5 class="text-truncate font-size-14 mb-0">{{invitation.from_user}}
+                                                    <div class="float-end">
+                                                        <i style="cursor: pointer; font-size: 1.1rem;" onclick="cancelInvite('{{invitation.id}}')" title="Cancel" class="ri-close-line mx-3 text-danger"></i>
+                                                    </div>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+                            <!-- End chat-group-list -->
+                        </div>
+                        <!-- End Groups content -->
+                    </div>
+                    <!-- End invitation tab-pane -->
+
+                    <!-- Start contacts tab-pane -->
+                    <div class="tab-pane" id="pills-contacts" role="tabpanel" aria-labelledby="pills-contacts-tab">
+                        <!-- Start Contact content -->
+                        <div>
+                            <div class="p-4">
+                                <div class="user-chat-nav float-end">
+                                    <div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Contact">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-link text-decoration-none text-muted font-size-18 py-0" data-bs-toggle="modal" data-bs-target="#addContact-exampleModal">
+                                            <i class="ri-user-add-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <h4 class="mb-4">Friends</h4>
+
+                                <!-- Start Add contact Modal -->
+                                <div class="modal fade" id="addContact-exampleModal" tabindex="-1" role="dialog" aria-labelledby="addContact-exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title font-size-16" id="addContact-exampleModalLabel">Add Friend</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
+                                            </div>
+                                            <form method="POST" action="">
+                                                {% csrf_token %}
+                                                <div class="modal-body p-4">
+                                                    <label for="addfrienduser" class="form-label">Username</label>
+                                                    <input type="text" class="form-control" id="addfrienduser" name="friend_user" placeholder="Enter username">
+                                                </div>
+                                                {% if messages %}
+                                                    <ul class="messages">
+                                                        {% for message in messages %}
+                                                            <li style="color: red" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-link" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Invite Friend</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Add contact Modal -->
+
+                                <div class="search-box chat-search-box">
+                                    <div class="input-group bg-light  input-group-lg rounded-3">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-link text-decoration-none text-muted pe-1 ps-3" type="button">
+                                                <i class="ri-search-line search-icon font-size-18"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control bg-light" placeholder="Search users..">
+                                    </div>
+                                </div>
+                                <!-- End search-box -->
+                            </div>
+                            <!-- end p-4 -->
+
+                            <!-- Start contact lists -->
+                            <div class="p-4 chat-message-list chat-group-list" data-simplebar>
+
+                                <div>
+                                    <ul class="list-unstyled contact-list">
+
+                                    {% for friend in friends %}
+
+                                        <li id="friend-{{friend.id}}">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="font-size-14 m-0">{{friend.username}}</h5>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <a href="#" class="text-muted dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="ri-more-2-fill"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <a class="dropdown-item" href="#"> Share <i class="ri-share-line float-end text-muted"></i></a>
+                                                        <span class="dropdown-item" onclick="removeFriend('{{friend.id}}')"> Remove <i class="ri-delete-bin-line float-end text-muted"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    {% endfor %}
+
+                                    </ul>
+                                </div>
+                                <!-- end contact list A -->
+
+                            </div>
+                            <!-- end contact lists -->
+                        </div>
+                        <!-- Start Contact content -->
+                    </div>
+                    <!-- End contacts tab-pane -->
+
+                    <!-- Start settings tab-pane -->
+                    <div class="tab-pane" id="pills-setting" role="tabpanel" aria-labelledby="pills-setting-tab">
+                        <!-- Start Settings content -->
+                        <div>
+                            <div class="px-4 pt-4">
+                                <h4 class="mb-0">Profile Settings</h4>
+                            </div>
+
+                            <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="text-center border-bottom p-4">
+                                <div class="mb-4 profile-user">
+                                    {% if request.user.profile_photo %}
+                                    <img src="{{ request.user.profile_photo.url }}" class="rounded-circle avatar-lg img-thumbnail" alt="">
+                                    {% endif %}
+                                    <br>
+                                    <div style="display: none">
+                                        {{user_form.profile_photo}}
+                                    </div>
+                                    <button type="button" onclick="document.getElementById('id_profile_photo').click()" class="btn btn-light bg-light avatar-xs p-0 rounded-circle profile-photo-edit">
+                                        <i class="ri-pencil-fill"></i>
+                                    </button>
+                                </div>
+                                <h5 class="font-size-16 mb-1 text-truncate">{{request.user.username}}</h5>
+                                {% if user_form.profile_photo.errors %}
+                                    {% for error in user_form.profile_photo.errors %}
+                                        <p style="color: red"> {{ error|escape }} </p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <!-- End profile user -->
+
+                            <!-- Start User profile description -->
+                            <div class="p-4 user-profile-desc" data-simplebar>
+                                <div id="settingprofile" class="accordion">
+                                    <div class="accordion-item card border mb-2">
+                                        <div class="accordion-header" id="personalinfo1">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#personalinfo" aria-expanded="true" aria-controls="personalinfo">
+                                                <h5 class="font-size-14 m-0">Personal Info</h5>
+                                            </button>
+                                        </div>
+                                        <div id="personalinfo" class="accordion-collapse collapse show" aria-labelledby="personalinfo1" data-bs-parent="#settingprofile">
+                                            <div class="accordion-body">
+
+                                                    <div>
+                                                        <p class="text-muted mb-1">First name</p>
+                                                        {{user_form.first_name}}
+                                                        {% if user_form.first_name.errors %}
+                                                            {% for error in user_form.first_name.errors %}
+                                                                <p style="color: red"> {{ error|escape }} </p>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="mt-4">
+                                                        <p class="text-muted mb-1">Username</p>
+                                                        {{user_form.username}}
+                                                        {% if user_form.username.errors %}
+                                                            {% for error in user_form.username.errors %}
+                                                                <p style="color: red"> {{ error|escape }} </p>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="mt-4">
+                                                        <p class="text-muted mb-1">About</p>
+                                                        {{user_form.about}}
+                                                    </div>
+
+                                                    <div class="float-end my-3">
+                                                        <button type="submit" class="btn btn-light btn-sm"><i class="ri-edit-fill me-1 ms-0 align-middle"></i> Edit </button>
+                                                    </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end personal info card -->
+                                </div>
+                                <!-- end profile-setting-accordion -->
+                                </form>
+                                <div id="settingsecurity" class="accordion">
+                                    <div class="accordion-item card border mb-2">
+                                        <div class="accordion-header" id="securityinfo1">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#securityinfo" aria-expanded="false" aria-controls="securityinfo">
+                                                <h5 class="font-size-14 m-0">Security</h5>
+                                            </button>
+                                        </div>
+                                        <div id="securityinfo" class="accordion-collapse collapse" aria-labelledby="securityinfo1" data-bs-parent="#settingsecurity">
+                                            <div class="accordion-body">
+
+                                                <form method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="mt-4">
+                                                        <p class="text-muted mb-1">Email Address</p>
+                                                        {{security_form.email}}
+
+                                                        {% if security_form.email.errors %}
+
+                                                        <ul>
+                                                            {% for error in security_form.email.errors %}
+                                                                <li style="color: red"> {{ error|escape }} </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="float-end my-3">
+                                                        <button type="submit" class="btn btn-light btn-sm"><i class="ri-edit-fill me-1 ms-0 align-middle"></i> Edit </button>
+                                                    </div>
+
+                                                </form>
+
+                                                <div class="float-end mt-5">
+                                                    <button type="button" class="btn btn-light btn-sm"><a href="{% url 'account:change-password' %}">Change Password</a></button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end personal info card -->
+                                </div>
+                                <!-- end security-setting-accordion -->
+
+                            </div>
+                            <!-- End User profile description -->
+
+                        </div>
+                        <!-- Start Settings content -->
+                    </div>
+                    <!-- End settings tab-pane -->
+                </div>
+                <!-- end tab content -->
+            </div>
+            <!-- end chat-leftsidebar -->
+
+
+            {% block body %}
+            {% endblock %}
+
+    {% if refresh %}
+        <script>
+            window.location.replace('{{refresh}}');
+        </script>
+    {% endif %}
+
+        <!-- JAVASCRIPT -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+        <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+
+        <!-- Magnific Popup-->
+        <script src="{% static 'assets/libs/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+        <!-- owl.carousel js -->
+        <script src="{% static 'assets/libs/owl.carousel/owl.carousel.min.js' %}"></script>
+
+        <!-- page init -->
+        <script src="{% static 'assets/js/pages/index.init.js' %}"></script>
+
+        <script src="{% static 'assets/js/app.js' %}"></script>
+
+
+        <script>
+            const getCsrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+            function removeFriend(id){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'chat:remove-friend' %}',
+                    data: {
+                        csrfmiddlewaretoken: getCsrfToken,
+                        action: 'post',
+                        friendID: id
+                    },
+
+                    success: function(data) {
+                        if (data.success){
+                            $('#friend-' + data.success).remove()
+                            location.reload()
+                        }
+                    },
+
+                    error: function(xhr, errmsg, err){},
+
+                });
+            }
+
+            function acceptInvite(id){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'chat:accept-invite' %}',
+                    data: {
+                        csrfmiddlewaretoken: getCsrfToken,
+                        action: 'post',
+                        id: id
+                    },
+
+                    success: function(data){
+                        if (data.success){
+                            $('#incoming-invitation-' + data.success).remove()
+                            location.reload()
+                        }
+                    },
+
+                    error: function(xhr, errmsg, err){},
+                });
+            }
+
+            function denyInvite(id){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'chat:deny-invite' %}',
+                    data: {
+                        csrfmiddlewaretoken: getCsrfToken,
+                        action: 'post',
+                        id: id
+                    },
+
+                    success: function(data){
+                        if (data.success){
+                            $('#incoming-invitation-' + data.success).remove()
+                            location.reload()
+                        }
+                    },
+
+                    error: function(xhr, errmsg, err){},
+                });
+            }
+
+            function cancelInvite(id){
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'chat:cancel-invite' %}',
+                    data: {
+                        csrfmiddlewaretoken: getCsrfToken,
+                        action: 'post',
+                        id: id
+                    },
+
+                    success: function(data){
+                        if (data.success){
+                            $('#outgoing-invitation-' + data.success).remove();
+                            location.reload()
+                        }
+                    },
+
+                    error: function(xhr, errmsg, err){},
+                });
+            }
+
+            </script>
+    </body>
+</html>
