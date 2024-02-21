@@ -15,13 +15,19 @@ def user_context_processor(request):
         get_full_url = request.build_absolute_uri() # get full url
         getUser = Users.objects.get(username=request.user)
 
+        # list friends
+        friends = Friends.objects.get(user__username=request.user.username)
+        context['friends'] = friends.friend_user.all()
+
+        # list incoming invitations
         incoming_invitation = Friend_Requests.objects.filter(to_user=getUser)
         context['incoming_invitations'] = incoming_invitation
 
-
+        # list outgoing invitation
         outgoing_invitation = Friend_Requests.objects.filter(from_user=getUser)
         context['outgoing_invitations'] = outgoing_invitation
 
+        # list friends in chats
         get_friend_objs = Friends.objects.get(user=getUser) if Friends.objects.filter(user=getUser).exists() else False
 
         if get_friend_objs:
@@ -29,7 +35,9 @@ def user_context_processor(request):
 
             for friend in get_friend_objs.friend_user.all():
                 if Room.objects.filter(first_user=friend, second_user=getUser):
+                    # find the chat room where users are messaging
                     getRoom = Room.objects.get(first_user=friend, second_user=getUser)
+                    # get user's last message in the room
                     getLastObj = getRoom.message_set.last()
 
                     getLastMessage = message_type(message_obj=getLastObj)
@@ -47,7 +55,7 @@ def user_context_processor(request):
 
             context['friends_and_rooms_message'] = friends_and_rooms_message
 
-
+        # add friend
         if request.method == "POST" and 'friend_user' in request.POST:
             friend_user = request.POST.get('friend_user')
 

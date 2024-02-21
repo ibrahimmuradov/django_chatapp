@@ -8,7 +8,6 @@ def account_context_processor(request):
     context = {}
 
     if request.user.is_authenticated:
-
         # User profile settings
         if request.method == "POST" and "username" in request.POST:
             user_edit_form = UserEditForm(instance=request.user, data=request.POST, files=request.FILES, request=request)
@@ -21,7 +20,6 @@ def account_context_processor(request):
         context['user_form'] = user_edit_form
 
         # User security settings
-
         if request.method == "POST" and "email" in request.POST:
             security_edit_form = SecurityEditForm(instance=request.user, data=request.POST, request=request)
 

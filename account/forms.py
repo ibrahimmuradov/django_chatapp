@@ -217,10 +217,7 @@ class SecurityEditForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
 
-        print('Testttt1')
-
         if UserBase.objects.exclude(email=self.request.user.email).filter(email=email).exists():
-            print('Testtt')
             raise forms.ValidationError('Email address already exists')
 
         return email

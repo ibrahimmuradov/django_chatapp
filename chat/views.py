@@ -46,6 +46,7 @@ def room(request, room_code):
     context = {
         'users': users,
         'room': room,
+        'room_user': room.second_user if room.first_user == request.user else room.first_user,
         'room_code': room_code,
         'messages_m': messages,
         'player_types': player_types,
