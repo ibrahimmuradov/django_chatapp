@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from .models import Room, Message, Friends, Friend_Requests
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
 from services.addFriend import AddFriend
+from services.check_model import get_or_none
 
 
 Users = get_user_model()
@@ -37,7 +38,12 @@ def start_chat(request, user):
 @login_required(login_url='/account/login/')
 def room(request, room_code):
     users = Users.objects.all().exclude(username=request.user)
-    room = Room.objects.get(room_code=room_code)
+
+    try:
+        room = get_object_or_404(Room, room_code=room_code)
+    except Http404:
+        return redirect('/')
+
     messages = Message.objects.filter(Q(room=room_code)&Q(visibility='visible'))
 
     player_types = ['mp4', 'mkv', 'mov', 'avi', 'mp3', 'mpeg', 'oog']
@@ -73,17 +79,17 @@ def delete_message(request):
     return JsonResponse(data)
 
 
-login_required(login_url='/account/login')
+@login_required(login_url='/account/login')
 def remove_friend(request):
     data = {}
 
     get_user = Users.objects.get(username=request.user)
     get_id = int(request.POST.get('friendID'))
 
-    get_friend_user = Users.objects.get(id=get_id) if Users.objects.filter(id=get_id).exists() else False
+    get_friend_user = get_or_none(Users, id=get_id)
 
     if get_friend_user:
-        if Friends.objects.filter(user=get_user, friend_user=get_friend_user).exists():
+        if get_or_none(Friends, user=get_user, friend_user=get_friend_user):
             get_friend = Friends.objects.get(user=get_user, friend_user=get_friend_user)
             get_friend.friend_user.remove(get_friend_user)
 
@@ -91,6 +97,14 @@ def remove_friend(request):
             get_request_user_friend.friend_user.remove(get_user)
 
             data['success'] = get_friend_user.id
+
+            room_query_1 = get_or_none(Room, first_user=get_user, second_user=get_friend_user)
+            room_query_2 = get_or_none(Room, first_user=get_friend_user, second_user=get_user)
+
+            if room_query_1:
+                room_query_1.delete()
+            elif room_query_2:
+                room_query_2.delete()
 
     return JsonResponse(data)
 
@@ -101,7 +115,7 @@ def accept_invite(request):
     get_id = request.POST.get('id')
 
     getUser = Users.objects.get(username=request.user)
-    get_friend_request_obj = Friend_Requests.objects.get(id=get_id) if Friend_Requests.objects.filter(id=get_id, to_user=getUser).exists() else False
+    get_friend_request_obj = get_or_none(Friend_Requests, id=get_id, to_user=getUser)
 
     if get_friend_request_obj:
         get_request_user = get_friend_request_obj.from_user
@@ -120,7 +134,7 @@ def deny_invite(request):
     get_id = int(request.POST.get('id'))
     getUser = Users.objects.get(username=request.user)
 
-    get_friend_request_obj = Friend_Requests.objects.get(id=get_id) if Friend_Requests.objects.filter(id=get_id, to_user=getUser).exists() else False
+    get_friend_request_obj = get_or_none(Friend_Requests, id=get_id, to_user=getUser)
 
     if get_friend_request_obj:
         data['success'] = get_friend_request_obj.id
@@ -134,7 +148,7 @@ def cancel_invite(request):
     get_id = int(request.POST.get('id'))
 
     getUser = Users.objects.get(username=request.user)
-    get_friend_request_obj = Friend_Requests.objects.get(id=get_id) if Friend_Requests.objects.filter(id=get_id, from_user=getUser).exists() else False
+    get_friend_request_obj = get_or_none(Friend_Requests, id=get_id, from_user=getUser)
 
     if get_friend_request_obj:
         data['success'] = get_friend_request_obj.id

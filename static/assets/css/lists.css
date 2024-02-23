@@ -1,0 +1,19 @@
+.list-unstyled.chat-list li {
+    transition: background-color 0.2s ease;
+    padding: 13px 10px;
+    border-radius: 5px;
+}
+
+.list-unstyled.chat-list li:hover {
+  background-color: #34404a;
+}
+
+.list-unstyled.contact-list li {
+    transition: background-color 0.2s ease;
+    padding: 13px 10px;
+    border-radius: 5px;
+}
+
+.list-unstyled.contact-list li:hover {
+  background-color: #34404a;
+}

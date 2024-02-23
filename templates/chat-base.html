@@ -26,6 +26,9 @@
         <!-- App Css-->
         <link href="{% static 'assets/css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
 
+        <!-- List Css-->
+        <link href="{% static 'assets/css/lists.css' %}" rel="stylesheet" type="text/css" />
+
     </head>
 
     <body data-bs-theme="dark">
@@ -232,7 +235,7 @@
 
                                     {% for invitation in outgoing_invitations %}
 
-                                    <li id="outgoing-invitation-{{invitation.id}}">
+                                    <li style="" id="outgoing-invitation-{{invitation.id}}">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="text-truncate font-size-14 mb-0">{{invitation.to_user}}
@@ -333,7 +336,6 @@
                                                         <i class="ri-more-2-fill"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="#"> Share <i class="ri-share-line float-end text-muted"></i></a>
                                                         <span class="dropdown-item" onclick="removeFriend('{{friend.id}}')"> Remove <i class="ri-delete-bin-line float-end text-muted"></i></span>
                                                     </div>
                                                 </div>
@@ -516,95 +518,8 @@
 
         <script src="{% static 'assets/js/app.js' %}"></script>
 
+        <script> const csrfToken = '{{ csrf_token }}'; </script>
 
-        <script>
-            const getCsrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-
-            function removeFriend(id){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'chat:remove-friend' %}',
-                    data: {
-                        csrfmiddlewaretoken: getCsrfToken,
-                        action: 'post',
-                        friendID: id
-                    },
-
-                    success: function(data) {
-                        if (data.success){
-                            $('#friend-' + data.success).remove()
-                            location.reload()
-                        }
-                    },
-
-                    error: function(xhr, errmsg, err){},
-
-                });
-            }
-
-            function acceptInvite(id){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'chat:accept-invite' %}',
-                    data: {
-                        csrfmiddlewaretoken: getCsrfToken,
-                        action: 'post',
-                        id: id
-                    },
-
-                    success: function(data){
-                        if (data.success){
-                            $('#incoming-invitation-' + data.success).remove()
-                            location.reload()
-                        }
-                    },
-
-                    error: function(xhr, errmsg, err){},
-                });
-            }
-
-            function denyInvite(id){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'chat:deny-invite' %}',
-                    data: {
-                        csrfmiddlewaretoken: getCsrfToken,
-                        action: 'post',
-                        id: id
-                    },
-
-                    success: function(data){
-                        if (data.success){
-                            $('#incoming-invitation-' + data.success).remove()
-                            location.reload()
-                        }
-                    },
-
-                    error: function(xhr, errmsg, err){},
-                });
-            }
-
-            function cancelInvite(id){
-                $.ajax({
-                    type: 'POST',
-                    url: '{% url 'chat:cancel-invite' %}',
-                    data: {
-                        csrfmiddlewaretoken: getCsrfToken,
-                        action: 'post',
-                        id: id
-                    },
-
-                    success: function(data){
-                        if (data.success){
-                            $('#outgoing-invitation-' + data.success).remove();
-                            location.reload()
-                        }
-                    },
-
-                    error: function(xhr, errmsg, err){},
-                });
-            }
-
-            </script>
+        <script src="{% static 'assets/js/friend.js' %}"></script>
     </body>
 </html>
