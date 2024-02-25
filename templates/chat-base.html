@@ -378,15 +378,15 @@
                             {% csrf_token %}
 
                             <div class="text-center border-bottom p-4">
-                                <div class="mb-4 profile-user">
+                                <div class="mb-4 profile-image-edit-container">
                                     {% if request.user.profile_photo %}
-                                    <img src="{{ request.user.profile_photo.url }}" class="rounded-circle avatar-lg img-thumbnail" alt="">
+                                    <img src="{{ request.user.profile_photo.url }}"  style="z-index: 50" class="rounded-circle avatar-lg img-thumbnail" alt="">
                                     {% endif %}
                                     <br>
                                     <div style="display: none">
                                         {{user_form.profile_photo}}
                                     </div>
-                                    <button type="button" onclick="document.getElementById('id_profile_photo').click()" class="btn btn-light bg-light avatar-xs p-0 rounded-circle profile-photo-edit">
+                                    <button style="margin-top: -2rem; margin-left: 3rem" type="button" onclick="document.getElementById('id_profile_photo').click()" class="btn btn-light bg-light avatar-xs p-0 rounded-circle profile-photo-edit">
                                         <i class="ri-pencil-fill"></i>
                                     </button>
                                 </div>

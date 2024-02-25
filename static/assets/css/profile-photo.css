@@ -12,6 +12,20 @@
   object-fit: cover;
 }
 
+.profile-image-edit-container {
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image-edit-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .profile-image-container {
   width: 6rem;
   height: 6rem;
