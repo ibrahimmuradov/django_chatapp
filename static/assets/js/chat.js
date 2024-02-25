@@ -117,7 +117,6 @@ chatSocket.onmessage = function(e) {
                                                     </div>
 
                                                 <div id="photo-${data.data_id}" class="ctext-wrap">
-                                                    <div class="ctext-wrap-content">
                                                         <p class="mb-0">
                                                             <ul class="list-inline message-img  mb-0">
                                                                 <li class="list-inline-item message-img-list me-2 ms-0">
@@ -146,7 +145,6 @@ chatSocket.onmessage = function(e) {
                                                                 </li>
                                                             </ul>
                                                         </p>
-                                                    </div>
                                                 </div>
 
                                                 <p id="message-time-${data.data_id}" class="chat-time mb-0"><i class="ri-time-line align-middle"></i> <span class="align-middle">${data.time}</span></p>
@@ -191,6 +189,7 @@ chatSocket.onmessage = function(e) {
                 document.querySelector('#message-time-' + data.data_id).style.display = "block";
             } else if (data.file_type == "mp3" || data.file_type == "mpeg" || data.file_type == "oog") {
                 document.querySelector('#audio-' + data.data_id).style.display = "block";
+                document.querySelector('#message-time-' + data.data_id).style.display = "block";
             } else if (data.file_type == "jpeg" || data.file_type == "png" || data.file_type == "jpg" || data.file_type == "gif") {
                 document.querySelector('#photo-' + data.data_id).style.display = "block";
                 document.querySelector('#message-time-' + data.data_id).style.display = "block";

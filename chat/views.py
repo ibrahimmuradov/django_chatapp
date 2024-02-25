@@ -46,49 +46,51 @@ def room(request, room_code):
     except Http404:
         return redirect('/')
 
+    if room.first_user == request.user or room.second_user == request.user:
+        complaint_form = ComplaintForm()
 
-    complaint_form = ComplaintForm()
-
-    if request.POST and 'room_user_id' in request.POST:
-        complaint_form = ComplaintForm(data=request.POST, request=request)
-
-
-        if complaint_form.is_valid():
-            room_user = Users.objects.get(id=request.POST.get('room_user_id'))
-            get_user = Users.objects.get(username=request.user.username)
-
-            Complaint.objects.create(from_user=get_user,
-                                     to_user=room_user,
-                                     compliant_reason=request.POST.get('compliant_reason'),
-                                     content=request.POST.get('content'))
-
-            if Complaint.objects.filter(to_user=room_user).count() >= 5:
-                get_user = Users.objects.get(username=room_user)
-                get_user.status = 'Unavailable'
-                get_user.is_active = False
-                get_user.save()
-
-            return redirect('/')
+        if request.POST and 'room_user_id' in request.POST:
+            complaint_form = ComplaintForm(data=request.POST, request=request)
 
 
-    messages = Message.objects.filter(Q(room=room_code)&Q(visibility='visible'))
+            if complaint_form.is_valid():
+                room_user = Users.objects.get(id=request.POST.get('room_user_id'))
+                get_user = Users.objects.get(username=request.user.username)
 
-    player_types = ['mp4', 'mkv', 'mov', 'avi', 'mp3', 'mpeg', 'oog']
-    file_types = ['pdf', 'zip', 'rar', 'txt', 'doc', 'docx', 'rtf', 'xls', 'xlsx', 'ppt', 'pptx'];
+                Complaint.objects.create(from_user=get_user,
+                                         to_user=room_user,
+                                         compliant_reason=request.POST.get('compliant_reason'),
+                                         content=request.POST.get('content'))
 
-    context = {
-        'users': users,
-        'room': room,
-        'room_user': room.second_user if room.first_user == request.user else room.first_user,
-        'room_code': room_code,
-        'messages_m': messages,
-        'player_types': player_types,
-        'file_types': file_types,
-        'complaint_form': complaint_form,
-    }
+                if Complaint.objects.filter(to_user=room_user).count() >= 5:
+                    get_user = Users.objects.get(username=room_user)
+                    get_user.status = 'Unavailable'
+                    get_user.is_active = False
+                    get_user.save()
 
-    return render(request, 'chat/room.html', context)
+                return redirect('/')
 
+
+        messages = Message.objects.filter(Q(room=room_code)&Q(visibility='visible'))
+
+        player_types = ['mp4', 'mkv', 'mov', 'avi', 'mp3', 'mpeg', 'oog']
+        file_types = ['pdf', 'zip', 'rar', 'txt', 'doc', 'docx', 'rtf', 'xls', 'xlsx', 'ppt', 'pptx'];
+
+        context = {
+            'users': users,
+            'room': room,
+            'room_user': room.second_user if room.first_user == request.user else room.first_user,
+            'room_code': room_code,
+            'messages_m': messages,
+            'player_types': player_types,
+            'file_types': file_types,
+            'complaint_form': complaint_form,
+        }
+
+        return render(request, 'chat/room.html', context)
+
+    else:
+        return redirect('/')
 
 @login_required(login_url='/account/login/')
 def delete_message(request):
