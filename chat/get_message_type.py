@@ -17,6 +17,8 @@ def message_type(message_obj=None):
                 getMessage = {'Video': message_obj.created_date}
             elif message_obj.file_type in file_types:
                 getMessage = {'File': message_obj.created_date}
+        else:
+            getMessage = None
 
         return getMessage
 

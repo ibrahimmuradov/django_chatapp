@@ -21,6 +21,10 @@
 
         <!-- Bootstrap Css -->
         <link href="{% static 'assets/css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
         <!-- Icons Css -->
         <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
@@ -28,6 +32,9 @@
 
         <!-- List Css-->
         <link href="{% static 'assets/css/lists.css' %}" rel="stylesheet" type="text/css" />
+
+        <!-- Profile Photo Css -->
+        <link rel="stylesheet" href="{% static 'assets/css/profile-photo.css' %}" type="text/css" />
 
     </head>
 
@@ -146,7 +153,7 @@
                                             <li>
                                                 <a href="{% url 'chat:start_chat' friend %}">
                                                     <div class="d-flex">
-                                                        <div class="chat-user-img online align-self-center me-3 ms-0">
+                                                        <div class="chat-user-img online align-self-center me-3 ms-0 profile-image-thumb-container">
                                                             <img src="{{friend.profile_photo.url}}" class="rounded-circle avatar-xs" alt="">
                                                         </div>
 
@@ -324,25 +331,29 @@
                                 <div>
                                     <ul class="list-unstyled contact-list">
 
-                                    {% for friend in friends %}
+                                    {% if friends %}
 
-                                        <li id="friend-{{friend.id}}">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-grow-1">
-                                                    <h5 class="font-size-14 m-0">{{friend.username}}</h5>
-                                                </div>
-                                                <div class="dropdown">
-                                                    <a href="#" class="text-muted dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="ri-more-2-fill"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <span class="dropdown-item" onclick="removeFriend('{{friend.id}}')"> Remove <i class="ri-delete-bin-line float-end text-muted"></i></span>
+                                        {% for friend in friends %}
+
+                                            <li id="friend-{{friend.id}}">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1">
+                                                        <h5 class="font-size-14 m-0">{{friend.username}}</h5>
+                                                    </div>
+                                                    <div class="dropdown">
+                                                        <a href="#" class="text-muted dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="ri-more-2-fill"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <span class="dropdown-item" onclick="removeFriend('{{friend.id}}')"> Remove <i class="ri-delete-bin-line float-end text-muted"></i></span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
 
-                                    {% endfor %}
+                                        {% endfor %}
+
+                                    {% endif %}
 
                                     </ul>
                                 </div>
@@ -423,6 +434,11 @@
                                                     <div class="mt-4">
                                                         <p class="text-muted mb-1">About</p>
                                                         {{user_form.about}}
+                                                    </div>
+
+                                                    <div class="mt-4">
+                                                        <p class="text-muted mb-1">Location</p>
+                                                        {{user_form.location}}
                                                     </div>
 
                                                     <div class="float-end my-3">

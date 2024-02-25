@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,13 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
 
+THIRD_PART_APPS = [
     'channels',
     'django_cleanup.apps.CleanupConfig',
+]
 
+DJANGO_APPS = [
     'chat',
     'account',
+    'complaint',
 ]
+
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PART_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -79,6 +79,13 @@ class UserRegisterForm(forms.ModelForm):
 
         return password2
 
+    def save(self, commit=True):
+        user = super(UserRegisterForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -150,10 +157,13 @@ class UserEditForm(forms.ModelForm):
     about = forms.CharField(max_length=300, widget=forms.Textarea(
         attrs={'class': 'form-control form-control-lg bg-light-subtle border-ligh', 'rows': '4'}
     ))
+    location = forms.CharField(max_length=200, widget=forms.TextInput(
+        attrs={'class': 'form-control form-control-lg bg-light-subtle border-ligh'}
+    ))
 
     class Meta:
         model = UserBase
-        fields = ('username', 'first_name', 'about', 'profile_photo')
+        fields = ('username', 'first_name', 'about', 'location', 'profile_photo')
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -161,6 +171,7 @@ class UserEditForm(forms.ModelForm):
         self.fields['username'].required = True
         self.fields['first_name'].required = False
         self.fields['about'].required = False
+        self.fields['location'].required = False
         self.fields['profile_photo'].widget.attrs.update(
             {'type': 'hidden',
              'class': 'form-control form-control-lg bg-light-subtle border-ligh',

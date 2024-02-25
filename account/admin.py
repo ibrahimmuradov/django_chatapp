@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import UserBase#, Friends
+from .models import UserBase
 
 admin.site.register(UserBase)
-# admin.site.register(Friends)

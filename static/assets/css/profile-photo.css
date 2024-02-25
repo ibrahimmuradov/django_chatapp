@@ -1,0 +1,53 @@
+.profile-image-thumb-container {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-image-thumb-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-image-container {
+  width: 6rem;
+  height: 6rem;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-image-complaint-container {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-image-complaint-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-image-chat-container {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profile-image-chat-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

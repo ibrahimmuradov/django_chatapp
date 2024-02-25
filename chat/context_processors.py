@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.db.models import Q
 from services.addFriend import AddFriend
 from .get_message_type import message_type
+from services.check_model import get_or_none
 
 
 Users = get_user_model()
@@ -16,8 +17,12 @@ def user_context_processor(request):
         getUser = Users.objects.get(username=request.user)
 
         # list friends
-        friends = Friends.objects.get(user__username=request.user.username)
-        context['friends'] = friends.friend_user.all()
+        friends = None
+
+        if get_or_none(Friends, user__username=request.user.username):
+            friends = get_or_none(Friends, user__username=request.user.username)
+
+        context['friends'] = friends.friend_user.all() if friends else False
 
         # list incoming invitations
         incoming_invitation = Friend_Requests.objects.filter(to_user=getUser)

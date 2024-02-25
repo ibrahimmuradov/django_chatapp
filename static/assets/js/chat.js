@@ -63,7 +63,7 @@ chatSocket.onmessage = function(e) {
 
         var addMessage = `<li id="message-${data.data_id}" class="right">
                                 <div class="conversation-list">
-                                    <div class="chat-avatar">
+                                    <div class="chat-avatar profile-image-chat-container">
                                         <img src="${data.user_profile_photo}" alt="">
                                     </div>
                                     <div class="user-chat-content">
@@ -188,10 +188,12 @@ chatSocket.onmessage = function(e) {
                 document.querySelector('#message-time-' + data.data_id).style.display = "block";
             } else if (data.file_type == "mp4" || data.file_type == "avi" || data.file_type == "mkv" || data.file_type == "mov"){
                 document.querySelector('#video-' + data.data_id).style.display = "block";
+                document.querySelector('#message-time-' + data.data_id).style.display = "block";
             } else if (data.file_type == "mp3" || data.file_type == "mpeg" || data.file_type == "oog") {
                 document.querySelector('#audio-' + data.data_id).style.display = "block";
             } else if (data.file_type == "jpeg" || data.file_type == "png" || data.file_type == "jpg" || data.file_type == "gif") {
                 document.querySelector('#photo-' + data.data_id).style.display = "block";
+                document.querySelector('#message-time-' + data.data_id).style.display = "block";
             }
 
         } else {
