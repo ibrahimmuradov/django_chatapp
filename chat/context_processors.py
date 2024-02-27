@@ -1,10 +1,12 @@
 from django.contrib.auth import get_user_model
-from .models import Room, Friends, Friend_Requests
+from .models import Room, Friends, Friend_Requests, Message
 from django.contrib import messages
 from django.db.models import Q
 from services.addFriend import AddFriend
 from .get_message_type import message_type
 from services.check_model import get_or_none
+from django.db.models import Max
+import datetime
 
 
 Users = get_user_model()
@@ -58,7 +60,10 @@ def user_context_processor(request):
 
                 friends_and_rooms_message[friend] = getLastMessage
 
-            context['friends_and_rooms_message'] = friends_and_rooms_message
+            # Sort users by last messaged user
+            friends_and_rooms_message = sorted(friends_and_rooms_message.items(), key=lambda x: list(x[1].values())[0] if x[1] else datetime.datetime.min, reverse=True)
+
+            context['friends_and_rooms_message'] = dict(friends_and_rooms_message)
 
         # add friend
         if request.method == "POST" and 'friend_user' in request.POST:
@@ -82,11 +87,12 @@ def user_context_processor(request):
                             get_friend_obj = Friend_Requests.objects.get(Q(from_user=get_request_user)&Q(to_user=getUser))
                             get_friend_obj.delete()
                             # delete friend request object because user added to friend list
-                            context['refresh'] = get_full_url
 
+                            context['refresh'] = get_full_url
                         else:
                             Friend_Requests.objects.create(from_user=getUser, to_user=get_request_user)
                             # create a new invitation if the user has not sent an invitation
+
                             context['refresh'] = get_full_url
 
             else:

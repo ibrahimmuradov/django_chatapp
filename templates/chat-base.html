@@ -150,7 +150,7 @@
 
                                         {% for friend, message in friends_and_rooms_message.items %}
 
-                                            <li>
+                                            <li id="friend-{{friend.id}}">
                                                 <a href="{% url 'chat:start_chat' friend %}">
                                                     <div class="d-flex">
                                                         <div class="chat-user-img online align-self-center me-3 ms-0 profile-image-thumb-container">

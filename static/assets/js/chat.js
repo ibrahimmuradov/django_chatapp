@@ -137,7 +137,7 @@ chatSocket.onmessage = function(e) {
                                                                                     <i class="ri-more-fill"></i>
                                                                                 </a>
                                                                                 <div class="dropdown-menu">
-                                                                                    <span class="dropdown-item" onclick="deleteMessage(${data.message_id})">Delete <i class="ri-delete-bin-line float-end text-muted"></i></span>
+                                                                                    <span class="dropdown-item" onclick="deleteMessage(${data.data_id})">Delete <i class="ri-delete-bin-line float-end text-muted"></i></span>
                                                                                 </div>
                                                                             </li>
                                                                         </ul>
@@ -190,6 +190,7 @@ chatSocket.onmessage = function(e) {
             } else if (data.file_type == "mp3" || data.file_type == "mpeg" || data.file_type == "oog") {
                 document.querySelector('#audio-' + data.data_id).style.display = "block";
                 document.querySelector('#message-time-' + data.data_id).style.display = "block";
+                document.querySelector('#message-dropdown-' + data.data_id).style.display = "block";
             } else if (data.file_type == "jpeg" || data.file_type == "png" || data.file_type == "jpg" || data.file_type == "gif") {
                 document.querySelector('#photo-' + data.data_id).style.display = "block";
                 document.querySelector('#message-time-' + data.data_id).style.display = "block";
