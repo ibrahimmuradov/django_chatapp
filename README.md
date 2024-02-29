@@ -1,15 +1,20 @@
 # Django ChatAPP
+<div>
+    <img src="read_me_img/chat_1.png" width="650"> <br> <br>
+    <img src="read_me_img/chat_2.png" width="650">
+</div>
+
 You can take advantage of the chatapp project I made according to your wishes.
 
 ## Description
 The purpose of my project is that users can chat with their friends online.
 <br>
-Users can create their own accounts, add friends and chat with them online. People can add each other by username. In chat, users can share photos, videos, audio and more files with each other.
+Users can add friends and chat with them online. In the chat, users can share photos, videos, audio and documents with each other. There is a user reporting system.
 <br>
-I used the Django framework of the python programming language in the backend of the project. I used Django channels for asynchronous messaging.
+I used the Django framework of the Python programming language in the backend of the project. I used Django channels for real-time asynchronous messaging.
 <br>
-I used javascript on frontend and jquery for connection with backend.
-<br>
+I used javascript and jquery on the frontend.
+
 
 ## Installation
 
