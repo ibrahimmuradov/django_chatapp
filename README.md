@@ -4,8 +4,6 @@
     <img src="read_me_img/chat_2.png" width="650">
 </div>
 
-You can take advantage of the chatapp project I made according to your wishes.
-
 ## Description
 The purpose of my project is that users can chat with their friends online.
 <br>
