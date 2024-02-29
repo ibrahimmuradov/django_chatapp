@@ -107,11 +107,11 @@
                                                                     </div>
                                                                 {% elif message.file_type == "mp3" or message.file_type == "mpeg" or message.file_type == "oog" %}
                                                                     <audio style='width: 250px' controls>
-                                                                      <source src="{{message.file}}">
+                                                                      <source src="{{message.file.url}}">
                                                                     </audio>
                                                                 {% elif message.file_type == "mp4" or message.file_type == "mkv" or message.file_type == "avi" or message.file_type == "mov" %}
                                                                     <video width="250" controls>
-                                                                      <source src="{{message.file}}">
+                                                                      <source src="{{message.file.url}}">
                                                                     </video>
                                                                 {% elif message.file_type == "jpeg" or message.file_type == "png" or message.file_type == "jpg" %}
                                                                     <ul class="list-inline message-img  mb-0">
